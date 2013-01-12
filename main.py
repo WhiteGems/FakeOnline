@@ -25,6 +25,12 @@ def Data(*args):
 	sys.setdefaultencoding('ascii')
 	return ret
 
+def join(delimiter, args):
+	sys.setdefaultencoding('latin1')
+	ret = delimiter.join(args)
+	sys.setdefaultencoding('ascii')
+	return ret
+
 _Hex = lambda S : ' '.join(map(str,map(hex, map(ord, S))))
 KickPacket = u'\xFF'
 
@@ -52,7 +58,7 @@ def client(sock, addr):
 					T(config.get('user')),
 					T(config.get('max'))
 			]
-			datastr = u'\x00\x00'.join(datafield)
+			datastr = join('\x00\x00', datafield)
 			Length = struct.pack('!h', len(datastr) >> 1)
 			data = Data(KickPacket, Length, datastr)
 			try:
